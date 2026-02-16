@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt update
-apt install openjdk-25-jre-headless
+apt install -y default-jre
 
 echo
 java --version
