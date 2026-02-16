@@ -19,4 +19,14 @@ then
 	option="-%mem"
 fi
 
-ps aux --sort "$option" | grep ^$USER
+while true
+do
+	read -p "How many processes to print? Enter the number: " amount
+	if [[ "$amount" =~ ^[1-9]+[0-9]*$ ]]
+	then
+		break
+	else
+		echo "Wrong input! Try again"
+	fi
+done
+ps aux --sort "$option" | grep ^$USER | head -n "$amount"
