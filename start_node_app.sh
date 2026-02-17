@@ -21,7 +21,7 @@ if [ -d "$1" ]
 then
 	export LOG_DIR="$1"
 else
-	mkdir "$1"
+	mkdir -p "$1"
 	if [ "$?" == 0 ]
 	then
 		export LOG_DIR="$1"
