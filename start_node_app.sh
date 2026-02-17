@@ -17,6 +17,17 @@ export APP_ENV=dev
 export DB_USER=myuser
 export DB_PWD=mysecret
 
+if [ -d "$1" ]
+then
+	export LOG_DIR="$1"
+else
+	mkdir "$1"
+	if [ "$?" == 0 ]
+	then
+		export LOG_DIR="$1"
+	fi
+fi
+
 cd package
 npm install
 node server.js &
