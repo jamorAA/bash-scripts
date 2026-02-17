@@ -5,9 +5,9 @@ sudo apt install -y nodejs
 sudo apt install -y npm
 
 echo
-node --version
+echo "node version is $(node --version)"
 echo
-npm --version
+echo "npm version is $(npm --version)"
 echo
 
 wget https://node-envvars-artifact.s3.eu-west-2.amazonaws.com/bootcamp-node-envvars-project-1.0.0.tgz
@@ -30,6 +30,8 @@ fi
 
 cd package
 npm install
+
+sudo useradd -s /bin/bash -p $(openssl passwd -1 "myapp") myapp
 node server.js &
 
 if [ "$?" == 0 ]
