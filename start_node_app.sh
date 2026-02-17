@@ -20,3 +20,10 @@ export DB_PWD=mysecret
 cd package
 npm install
 node server.js &
+
+if [ "$?" == 0 ]
+then
+	echo
+	echo "PID for the node app is $(ps ux | grep "node server.js" | grep -v grep | awk '{print $2}')"
+	echo
+fi
