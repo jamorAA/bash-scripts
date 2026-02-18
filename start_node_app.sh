@@ -10,33 +10,24 @@ echo
 echo "npm version is $(npm --version)"
 echo
 
-wget https://node-envvars-artifact.s3.eu-west-2.amazonaws.com/bootcamp-node-envvars-project-1.0.0.tgz
-tar -zxvf bootcamp-node-envvars-project-1.0.0.tgz
+sudo useradd -m -s /bin/bash -p $(openssl passwd -1 "myapp") myapp
 
-export APP_ENV=dev
-export DB_USER=myuser
-export DB_PWD=mysecret
+sudo runuser -l myapp -c "wget https://node-envvars-artifact.s3.eu-west-2.amazonaws.com/bootcamp-node-envvars-project-1.0.0.tgz;
+                     tar -zxvf bootcamp-node-envvars-project-1.0.0.tgz;
+		     export APP_ENV=dev;
+                     export DB_USER=myuser;
+                     export DB_PWD=mysecret;
+		     mkdir -p "$1";
+		     if [ -d "$1" ];
+		       then
+		         export LOG_DIR="$1";
+                     fi;
+		     cd package;
+		     npm install;
+		     node server.js &"
 
-if [ -d "$1" ]
-then
-	export LOG_DIR="$1"
-else
-	mkdir -p "$1"
-	if [ "$?" == 0 ]
-	then
-		export LOG_DIR="$1"
-	fi
-fi
+echo
+echo "PID for the node app is $(ps aux | grep "node server.js" | grep -v grep | awk '{print $2}')"
+echo
 
-cd package
-npm install
-
-sudo useradd -s /bin/bash -p $(openssl passwd -1 "myapp") myapp
-node server.js &
-
-if [ "$?" == 0 ]
-then
-	echo
-	echo "PID for the node app is $(ps ux | grep "node server.js" | grep -v grep | awk '{print $2}')"
-	echo
-fi
+sudo netstat -tlpn | grep :3000
